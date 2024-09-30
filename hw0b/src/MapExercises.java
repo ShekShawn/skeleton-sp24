@@ -27,6 +27,7 @@ public class MapExercises {
         }
         return squares;
     }
+    }
     /** Returns a map of the counts of all words that appear in a list of words. */
     public static Map<String, Integer> countWords(List<String> words) {
         // TODO: Fill in this function.
