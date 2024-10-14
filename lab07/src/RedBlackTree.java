@@ -1,4 +1,4 @@
-public class RedBlackTree<T extends Comparable<T>> {
+public class RedBlackTree<T extends Comparable<T>>implements Set61B<K> {
 
     /* Root of the tree. */
     RBTreeNode<T> root;
@@ -51,6 +51,13 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     void flipColors(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
+        node.isBlack=!node.isBlack;
+        if(node.left!=null){
+            node.left.isBlack=true; //left child becomes black
+        }
+        if(node.right!=null){
+            node.right.isBlack=true; //right child becomes black
+        }
     }
 
     /**
@@ -61,7 +68,12 @@ public class RedBlackTree<T extends Comparable<T>> {
      * @return
      */
     RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
+        // TODO: YOUR CODE HEREN
+        RBTreeNode<T>y=node.left;
+        node.left=y.right;
+        y.right=node;
+        y.isBlack= node.isBlack; //swap colors
+        node.isBlack=false;  // old root becomes red
         return null;
     }
 
@@ -74,6 +86,11 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
+        RBTreeNode<T>y=node.right;
+        node.right=y.left;
+        y.left=node;
+        y.isBlack=node.isBlack; //swap color
+        node.isBlack=false;  //old root becomes red
         return null;
     }
 
@@ -106,16 +123,32 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
         // TODO: Insert (return) new red leaf node.
-
+        if(node==null){
+            return new RBTreeNode<>(false,item);  //new node is red
+        }
+        int cmp =item.compareTo(node.item);
+        if(cmp<0){
+            node.left=insert(node.left,item)
+        }else if(cmp>0){
+            node.right=insert(node.right,item)
+        }else{
+            return node; //node value=item value
+        }
         // TODO: Handle normal binary search tree insertion.
 
         // TODO: Rotate left operation
-
+        if(isRed(node.left)&& isRed(node.left.left)){
+            node=rotateRight(node);
+        }
         // TODO: Rotate right operation
-
+        if(isRed(node.right) && isRed(node.right.right)){
+            node=rotateLeft(node);
+        }
         // TODO: Color flip
-
-        return null; //fix this return statement
+        if(isRed(node.left)&&isRed(node.right)){
+            flipColors(node);
+        }
+        return node; //fix this return statement
     }
 
 }
