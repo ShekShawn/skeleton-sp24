@@ -44,7 +44,6 @@ public class UnionFind {
         parents[v]=find(parent(v));
         return find(parent(v));
     }
-
     /* Connects two items V1 and V2 together by connecting their respective
        sets. V1 and V2 can be any element, and a union-by-size heuristic is
        used. If the sizes of the sets are equal, tie break by connecting V1's
